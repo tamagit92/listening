@@ -1,112 +1,136 @@
 <!doctype html>
 <html lang="id">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Listening Test</title>
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                font-family: Arial, Helvetica, sans-serif;
-            }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Listening Test</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+      }
 
-            body {
-                background: #f5f7fb;
-                padding: 20px;
-            }
+      body {
+        background: #f5f7fb;
+        padding: 20px;
+      }
 
-            .container {
-                max-width: 900px;
-                margin: auto;
-            }
+      .container {
+        max-width: 900px;
+        margin: auto;
+      }
 
-            h1 {
-                text-align: center;
-                margin-bottom: 25px;
-                color: #1e3a8a;
-            }
+      h1 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #1e3a8a;
+      }
 
-            .audio-list {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                gap: 15px;
-            }
+      .audio-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 15px;
+      }
 
-            .audio-card {
-                background: white;
-                padding: 15px;
-                border-radius: 12px;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-                transition: 0.2s ease;
-            }
+      .audio-card {
+        background: white;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        transition: 0.2s ease;
+      }
 
-            .audio-card:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
-            }
+      .audio-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+      }
 
-            .audio-title {
-                font-weight: bold;
-                margin-bottom: 8px;
-                color: #111827;
-            }
+      .audio-title {
+        font-weight: bold;
+        margin-bottom: 4px;
+        color: #111827;
+      }
 
-            audio {
-                width: 100%;
-            }
+      .audio-desc {
+        font-size: 13px;
+        color: #6b7280;
+        margin-bottom: 8px;
+      }
 
-            .info {
-                text-align: center;
-                margin-bottom: 20px;
-                color: #374151;
-                font-size: 14px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h1>Listening Test</h1>
-            <p class="info">
-                Klik tombol play untuk mendengarkan setiap audio soal
-            </p>
+      audio {
+        width: 100%;
+      }
 
-            <div class="audio-list" id="audioList"></div>
-        </div>
+      .info {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #374151;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Listening Test</h1>
+      <p class="info">Klik tombol play untuk mendengarkan setiap audio soal</p>
 
-        <script>
-            const totalAudio = 15;
-            const container = document.getElementById("audioList");
+      <div class="audio-list" id="audioList"></div>
+    </div>
 
-            for (let i = 1; i <= totalAudio; i++) {
-                const card = document.createElement("div");
-                card.className = "audio-card";
+    <script>
+      const audioConfig = [
+        { file: 1, label: "Soal 1" },
+        { file: 2, label: "Soal 2" },
+        { file: 3, label: "Soal 3" },
+        { file: 4, label: "Soal 4" },
+        { file: 5, label: "Soal 5" },
+        { file: 6, label: "Soal 6" },
+        { file: 7, label: "Soal 7" },
+        {
+          file: 8,
+          label: "Soal 8 - 10",
+          desc: "Audio untuk soal nomor 8 sampai 10",
+        },
+        {
+          file: 9,
+          label: "Soal 11 - 15",
+          desc: "Audio untuk soal nomor 11 sampai 15",
+        },
+      ];
 
-                card.innerHTML = `
-            <div class="audio-title">Soal ${i}</div>
+      const container = document.getElementById("audioList");
+
+      audioConfig.forEach((item) => {
+        const card = document.createElement("div");
+        card.className = "audio-card";
+
+        card.innerHTML = `
+            <div class="audio-title">${item.label}</div>
+            ${item.desc ? `<div class="audio-desc">${item.desc}</div>` : ""}
             <audio controls preload="none">
-                <source src="audio/soal${i}.mp3" type="audio/mpeg">
+                <source src="audio/soal${item.file}.mp3" type="audio/mpeg">
                 Browser tidak mendukung audio.
             </audio>
         `;
 
-                container.appendChild(card);
-            }
+        container.appendChild(card);
+      });
 
-            // hanya satu audio yang boleh play dalam satu waktu
-            document.addEventListener(
-                "play",
-                function (e) {
-                    const audios = document.querySelectorAll("audio");
-                    audios.forEach((audio) => {
-                        if (audio !== e.target) {
-                            audio.pause();
-                        }
-                    });
-                },
-                true,
-            );
-        </script>
-    </body>
+      // hanya satu audio yang boleh play dalam satu waktu
+      document.addEventListener(
+        "play",
+        function (e) {
+          const audios = document.querySelectorAll("audio");
+          audios.forEach((audio) => {
+            if (audio !== e.target) {
+              audio.pause();
+            }
+          });
+        },
+        true,
+      );
+    </script>
+  </body>
 </html>
