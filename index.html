@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Listening Test</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            body {
+                background: #f5f7fb;
+                padding: 20px;
+            }
+
+            .container {
+                max-width: 900px;
+                margin: auto;
+            }
+
+            h1 {
+                text-align: center;
+                margin-bottom: 25px;
+                color: #1e3a8a;
+            }
+
+            .audio-list {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 15px;
+            }
+
+            .audio-card {
+                background: white;
+                padding: 15px;
+                border-radius: 12px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+                transition: 0.2s ease;
+            }
+
+            .audio-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+            }
+
+            .audio-title {
+                font-weight: bold;
+                margin-bottom: 8px;
+                color: #111827;
+            }
+
+            audio {
+                width: 100%;
+            }
+
+            .info {
+                text-align: center;
+                margin-bottom: 20px;
+                color: #374151;
+                font-size: 14px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Listening Test</h1>
+            <p class="info">
+                Klik tombol play untuk mendengarkan setiap audio soal
+            </p>
+
+            <div class="audio-list" id="audioList"></div>
+        </div>
+
+        <script>
+            const totalAudio = 15;
+            const container = document.getElementById("audioList");
+
+            for (let i = 1; i <= totalAudio; i++) {
+                const card = document.createElement("div");
+                card.className = "audio-card";
+
+                card.innerHTML = `
+            <div class="audio-title">Soal ${i}</div>
+            <audio controls preload="none">
+                <source src="audio/soal${i}.mp3" type="audio/mpeg">
+                Browser tidak mendukung audio.
+            </audio>
+        `;
+
+                container.appendChild(card);
+            }
+
+            // hanya satu audio yang boleh play dalam satu waktu
+            document.addEventListener(
+                "play",
+                function (e) {
+                    const audios = document.querySelectorAll("audio");
+                    audios.forEach((audio) => {
+                        if (audio !== e.target) {
+                            audio.pause();
+                        }
+                    });
+                },
+                true,
+            );
+        </script>
+    </body>
+</html>
